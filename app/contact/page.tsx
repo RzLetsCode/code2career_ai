@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import Link from 'next/link';
 import { Mail, Phone, FileText, ArrowLeft } from 'lucide-react';
-import emailjs from '@emailjs/browser';
 
 interface FormData {
   name: string;
@@ -19,61 +18,46 @@ export default function ContactPage() {
     email: '',
     purpose: '',
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
-  const [emailInitialized, setEmailInitialized] = useState(false);
-
-  // Initialize EmailJS on component mount
-  useEffect(() => {
-    try {
-      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '');
-      setEmailInitialized(true);
-    } catch (error) {
-      console.error('EmailJS initialization error:', error);
-      setSubmitMessage('Email service is not available. Please try again later.');
-    }
-  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!emailInitialized) {
-      setSubmitMessage('Email service is not available. Please try again later.');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
-      const templateParams = {
-        to_email: 'rajeshkumar080817@gmail.com',
-        from_name: formData.name,
-        from_email: formData.email,
-        from_phone: formData.phone,
-        message: formData.purpose,
-        reply_to: formData.email,
-      };
+      // Send message to email endpoint
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-      const response = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
-        templateParams
-      );
-
-      if (response.status === 200) {
+      if (response.ok) {
         setSubmitMessage('✓ Thank you! Your message has been sent successfully. I\'ll get back to you within 24 hours.');
-        setFormData({ name: '', phone: '', email: '', purpose: '' });
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          purpose: '',
+        });
         setTimeout(() => setSubmitMessage(''), 5000);
       } else {
         setSubmitMessage('Error sending message. Please try again.');
       }
-    } catch (error: any) {
-      console.error('Email send error:', error);
+    } catch (error) {
+      console.error('Message submission error:', error);
       setSubmitMessage('Error sending message. Please check your information and try again.');
     } finally {
       setIsSubmitting(false);
@@ -89,13 +73,20 @@ export default function ContactPage() {
 
         <div className="mb-12">
           <h1 className="text-5xl font-bold mb-4">Get in Touch</h1>
-          <p className="text-lg text-slate-400">Let's discuss Enterprise AI Architecture, Databricks pipelines, or Azure Cloud scaling.</p>
+          <p className="text-lg text-slate-400">
+            Let's discuss Enterprise AI Architecture, Databricks pipelines, or Azure Cloud scaling.
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-gradient-to-br from-slate-900 to-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl"
+        >
           {/* Name Field */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium mb-2">Full Name *</label>
+            <label htmlFor="name" className="block text-sm font-medium mb-2">
+              Full Name *
+            </label>
             <input
               id="name"
               type="text"
@@ -108,27 +99,10 @@ export default function ContactPage() {
             />
           </div>
 
-          {/* Phone Field */}
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium mb-2 flex items-center gap-2">
-              <Phone size={16} /> Phone Number *
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
-              placeholder="Your phone number"
-            />
-          </div>
-
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2 flex items-center gap-2">
-              <Mail size={16} /> Email Address *
+            <label htmlFor="email" className="block text-sm font-medium mb-2">
+              Email Address *
             </label>
             <input
               id="email"
@@ -142,10 +116,27 @@ export default function ContactPage() {
             />
           </div>
 
+          {/* Phone Field */}
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium mb-2">
+              Phone Number *
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+              placeholder="Your phone number"
+            />
+          </div>
+
           {/* Purpose Field */}
           <div>
-            <label htmlFor="purpose" className="block text-sm font-medium mb-2 flex items-center gap-2">
-              <FileText size={16} /> Purpose of Contact *
+            <label htmlFor="purpose" className="block text-sm font-medium mb-2">
+              Purpose/Message *
             </label>
             <textarea
               id="purpose"
@@ -153,39 +144,32 @@ export default function ContactPage() {
               value={formData.purpose}
               onChange={handleChange}
               required
-              rows={5}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition resize-none"
+              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition resize-none h-32"
               placeholder="Tell me about your project or inquiry..."
             />
           </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting || !emailInitialized}
-            className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 disabled:from-slate-600 disabled:to-slate-700 text-slate-950 font-bold rounded-lg transition flex items-center justify-center gap-2"
-          >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </button>
-
-          {/* Success/Error Message */}
+          {/* Submit Message */}
           {submitMessage && (
-            <div className={`p-4 rounded-lg text-center ${
-              submitMessage.includes('successfully')
-                ? 'bg-emerald-900/30 border border-emerald-700 text-emerald-200'
+            <div className={`p-4 rounded-lg ${
+              submitMessage.includes('✓')
+                ? 'bg-green-900/30 border border-green-700 text-green-200'
                 : 'bg-red-900/30 border border-red-700 text-red-200'
             }`}>
               {submitMessage}
             </div>
           )}
-        </form>
 
-        <div className="mt-12 text-center text-slate-400 text-sm">
-          <p>All fields are required. We'll get back to you within 24 hours.</p>
-          {!emailInitialized && (
-            <p className="text-red-400 mt-2">⚠ Email service configuration needed. Please contact administrator.</p>
-          )}
-        </div>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:from-slate-700 disabled:to-slate-600 text-white font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+          >
+            <Mail size={20} />
+            {isSubmitting ? 'Sending...' : 'Send Message'}
+          </button>
+        </form>
       </div>
     </div>
   );
