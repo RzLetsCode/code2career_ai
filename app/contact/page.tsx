@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, useEffect } from 'react';
 import Link from 'next/link';
 import { Mail, Phone, FileText, ArrowLeft } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 interface FormData {
   name: string;
@@ -20,6 +21,18 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [emailInitialized, setEmailInitialized] = useState(false);
+
+  // Initialize EmailJS on component mount
+  useEffect(() => {
+    try {
+      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '');
+      setEmailInitialized(true);
+    } catch (error) {
+      console.error('EmailJS initialization error:', error);
+      setSubmitMessage('Email service is not available. Please try again later.');
+    }
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -28,24 +41,40 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!emailInitialized) {
+      setSubmitMessage('Email service is not available. Please try again later.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const templateParams = {
+        to_email: 'rajeshkumar080817@gmail.com',
+        from_name: formData.name,
+        from_email: formData.email,
+        from_phone: formData.phone,
+        message: formData.purpose,
+        reply_to: formData.email,
+      };
 
-      if (response.ok) {
-        setSubmitMessage('Thank you! Your message has been sent successfully.');
+      const response = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        templateParams
+      );
+
+      if (response.status === 200) {
+        setSubmitMessage('✓ Thank you! Your message has been sent successfully. I\'ll get back to you within 24 hours.');
         setFormData({ name: '', phone: '', email: '', purpose: '' });
         setTimeout(() => setSubmitMessage(''), 5000);
       } else {
         setSubmitMessage('Error sending message. Please try again.');
       }
-    } catch (error) {
-      setSubmitMessage('Error sending message. Please try again.');
+    } catch (error: any) {
+      console.error('Email send error:', error);
+      setSubmitMessage('Error sending message. Please check your information and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -133,7 +162,7 @@ export default function ContactPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !emailInitialized}
             className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 disabled:from-slate-600 disabled:to-slate-700 text-slate-950 font-bold rounded-lg transition flex items-center justify-center gap-2"
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -153,6 +182,9 @@ export default function ContactPage() {
 
         <div className="mt-12 text-center text-slate-400 text-sm">
           <p>All fields are required. We'll get back to you within 24 hours.</p>
+          {!emailInitialized && (
+            <p className="text-red-400 mt-2">⚠ Email service configuration needed. Please contact administrator.</p>
+          )}
         </div>
       </div>
     </div>
