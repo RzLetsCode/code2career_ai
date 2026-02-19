@@ -90,7 +90,7 @@ export default function Home() {
  <Link href="https://linkedin.com/in/rajesh-kumar-04405962/" target="_blank" className="hover:text-cyan-400 transition-all transform hover:scale-110">
  <Linkedin size={32} />
  </Link>
- <Link href="mailto:rajeshrajrz111@gmail.com" className="hover:text-cyan-400 transition-all transform hover:scale-110">
+ <Link href="/contact" className="hover:text-cyan-400 transition-all transform hover:scale-110">
  <Mail size={32} />
  </Link>
  </div>
@@ -193,7 +193,7 @@ export default function Home() {
  <h2 className="text-3xl font-black mb-6 leading-tight">Ready to build the <span className="text-cyan-400 underline decoration-cyan-500/20">Next Generation</span> of AI?</h2>
  <p className="text-lg text-slate-400 mb-12 max-w-xl mx-auto font-medium leading-relaxed">Let's discuss Enterprise AI Architecture, Databricks pipelines, or Azure Cloud scaling.</p>
  <div className="flex flex-wrap justify-center gap-6">
- <Link href="mailto:rajeshrajrz111@gmail.com" className="flex items-center gap-3 px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl transition-all shadow-xl shadow-cyan-500/10 font-black active:scale-95">
+ <Link href="/contact" className="flex items-center gap-3 px-8 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-xl transition-all shadow-xl shadow-cyan-500/10 font-black active:scale-95">
  <Mail size={20} />
  <span>Email Me</span>
  </Link>
