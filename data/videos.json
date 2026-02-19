@@ -1,0 +1,27 @@
+{
+  "videos": [
+    {
+      "id": "placeholder_1",
+      "title": "Building Production-Grade AI Systems",
+      "description": "Learn how to build scalable AI systems for production environments",
+      "thumbnail": "https://img.youtube.com/vi/placeholder/maxresdefault.jpg",
+      "videoId": "placeholder_1",
+      "publishedAt": "2024-02-19T10:00:00Z",
+      "views": 1500,
+      "likes": 120,
+      "duration": "24:35"
+    },
+    {
+      "id": "placeholder_2",
+      "title": "Enterprise AI Architecture Patterns",
+      "description": "Explore enterprise-level AI architecture patterns and best practices",
+      "thumbnail": "https://img.youtube.com/vi/placeholder/maxresdefault.jpg",
+      "videoId": "placeholder_2",
+      "publishedAt": "2024-02-15T14:30:00Z",
+      "views": 2100,
+      "likes": 180,
+      "duration": "32:15"
+    }
+  ],
+  "lastUpdated": "2024-02-19T10:00:00Z"
+}
