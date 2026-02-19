@@ -70,7 +70,7 @@ export default function Home() {
  Architecting <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Intelligence</span>
  </h2>
  <p className="text-xl md:text-2xl text-slate-400 mb-14 max-w-3xl mx-auto leading-relaxed font-medium">
- Senior AI Architect with 8+ years of experience. Building production-grade RAG pipelines, multi-agent systems, and enterprise data lakehouses.
+ AI Architect with 12+ years of expertise. Designing and deploying advanced AI solutions. Building production-grade RAG pipelines, multi-agent systems, and intelligent AI systems years of experience. Building production-grade RAG pipelines, multi-agent systems, and enterprise data lakehouses.
  </p>
  <div className="flex flex-wrap gap-6 justify-center">
  <Link href="#projects" className="px-10 py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition-all shadow-xl shadow-cyan-500/20 flex items-center gap-2 transform hover:-translate-y-1 active:scale-95">
