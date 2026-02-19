@@ -1,32 +1,23 @@
 {
   "name": "portfolio-main",
   "version": "1.0.0",
-  "description": "Professional portfolio showcasing enterprise AI expertise, technical skills, and project portfolio. Built with HTML, CSS, dark mode support.",
-  "main": "index.html",
-  "type": "module",
+  "description": "Professional portfolio showcasing enterprise AI expertise, technical skills, and project portfolio. Built with Next.js and Tailwind CSS.",
+  "private": true,
   "scripts": {
-    "dev": "python -m http.server 8000",
-    "build": "echo 'Static site - no build required'",
-    "deploy": "git push origin main"
+    "dev": "next dev",
+    "build": "next build && next export",
+    "export": "next export",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "keywords": [
-    "portfolio",
-    "enterprise-ai",
-    "data-science",
-    "snowflake",
-    "python",
-    "generative-ai"
-  ],
-  "author": "Rajesh Kumar",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RzLetsCode/portfolio-main.git"
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
-  "bugs": {
-    "url": "https://github.com/RzLetsCode/portfolio-main/issues"
-  },
-  "homepage": "https://rzletscode.github.io/portfolio-main/",
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
 }
