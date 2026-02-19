@@ -1,8 +1,5 @@
-'use client';
-
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { ArrowLeft, Zap, Server, Globe, Github, ExternalLink, Mail, Linkedin, Youtube } from 'lucide-react';
+import { ArrowLeft, Zap, Server, Globe, Github, Linkedin } from 'lucide-react';
 
 const projectData = {
   'rag-system': {
@@ -27,124 +24,124 @@ const projectData = {
     scalability: 'Distributed task queue system capable of handling hundreds of parallel agentic workflows across different cloud providers.',
     impact: 'Automated 70% of insurance claim verification processes, resulting in millions of dollars in operational savings annually.',
     features: [
-      'Self-correcting Agent Loops',
-      'Cross-Model Orchestration (GPT-4, Claude, Llama)',
-      'Automated Tool Use & API Integration',
-      'Comprehensive Execution Traceability'
+      'Dynamic Task Decomposition',
+      'Agent Memory & State Management',
+      'Human-in-the-loop Validation',
+      'Cross-platform Tool Integration'
     ]
   },
   'healthcare-analytics': {
     title: 'Healthcare AI Analytics Platform',
-    description: 'Next-generation clinical decision support platform leveraging predictive modeling on massive healthcare datasets.',
-    tech: ['Azure AI', 'Python', 'Snowflake', 'Data Science', 'PyTorch'],
-    architecture: 'Real-time streaming data pipeline integrated with distributed machine learning models for predictive patient insights.',
-    scalability: 'Petabyte-scale data processing using Snowflake and Azure Synapse, optimized for low-latency clinical dashboarding.',
-    impact: 'Deployed across multiple hospital networks, predicting patient readmission risks with 92% accuracy and improving clinical efficiency.',
+    description: 'A high-performance analytics engine that leverages predictive modeling to improve patient outcomes and operational efficiency.',
+    tech: ['Azure AI', 'Python', 'Snowflake', 'PyTorch', 'PowerBI'],
+    architecture: 'Real-time data streaming and batch processing architecture with automated feature engineering and model monitoring.',
+    scalability: 'Elastic compute clusters on Azure Machine Learning, capable of training models on multi-terabyte healthcare datasets.',
+    impact: 'Reduced patient readmission rates by 22% through early risk detection and personalized intervention recommendations.',
     features: [
-      'Real-time Patient Risk Scoring',
-      'HIPAA-Compliant Data Processing',
-      'Predictive Readmission Modeling',
-      'Interactive Clinical Dashboards'
+      'Predictive Risk Stratification',
+      'Automated HIPAA-compliant Data Masking',
+      'Interactive Clinical Dashboards',
+      'Model Drift Detection & Retraining'
     ]
   }
 };
 
-export default function ProjectDetail() {
-  const params = useParams();
-  const id = params.id as string;
+export async function generateStaticParams() {
+  return Object.keys(projectData).map((id) => ({
+    id: id,
+  }));
+}
+
+export default async function ProjectDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const project = projectData[id as keyof typeof projectData];
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
-        <div className="text-center">
-          <h1 className="text-4xl font-black mb-4">Project Not Found</h1>
-          <Link href="/" className="text-cyan-400 hover:underline">Return Home</Link>
-        </div>
+      <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center p-6">
+        <h1 className="text-4xl font-black mb-6">Project Not Found</h1>
+        <Link href="/" className="text-cyan-400 flex items-center gap-2 hover:underline">
+          <ArrowLeft size={20} /> Back to Home
+        </Link>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-cyan-500/30">
-      {/* Top Nav */}
+      {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">Rajesh Kumar</Link>
-          <div className="flex gap-6 text-sm font-bold">
-            <Link href="https://hashnode.com/@rz111" target="_blank" className="hover:text-cyan-400">Blogs</Link>
-            <Link href="https://www.youtube.com/@Code2Career_AI" target="_blank" className="hover:text-red-500">YouTube</Link>
-          </div>
+          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent underline decoration-cyan-500/30">
+            Rajesh Kumar
+          </Link>
+          <Link href="/" className="text-sm font-medium text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-2">
+            <ArrowLeft size={16} /> Back to Home
+          </Link>
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-6 py-20">
-        <Link href="/" className="inline-flex items-center gap-2 text-cyan-400 font-black mb-12 group hover:text-cyan-300 transition-colors">
-          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> Back to Portfolio
-        </Link>
-
-        <header className="mb-16">
-          <div className="w-16 h-16 bg-cyan-500/10 rounded-3xl flex items-center justify-center text-cyan-400 mb-8 border border-cyan-500/20 shadow-lg shadow-cyan-500/5">
-            {id === 'rag-system' ? <Zap size={32} /> : id === 'multi-agent' ? <Server size={32} /> : <Globe size={32} />}
+      <main className="max-w-4xl mx-auto py-20 px-6">
+        <div className="mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold mb-6">
+            <Zap size={12} /> Featured Project
           </div>
-          <h1 className="text-5xl md:text-7xl font-black mb-8 tracking-tight leading-tight">{project.title}</h1>
-          <p className="text-xl md:text-2xl text-slate-400 leading-relaxed font-medium mb-12">{project.description}</p>
+          <h1 className="text-5xl md:text-6xl font-black mb-8 leading-tight tracking-tight">{project.title}</h1>
+          <p className="text-xl text-slate-400 leading-relaxed font-medium mb-10">{project.description}</p>
           
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 mb-12">
             {project.tech.map((t, i) => (
-              <span key={i} className="px-5 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs font-black uppercase tracking-widest text-slate-300 shadow-sm">{t}</span>
+              <span key={i} className="px-4 py-2 bg-slate-900 border border-slate-800 rounded-xl text-sm font-bold text-slate-300">
+                {t}
+              </span>
             ))}
           </div>
-        </header>
+        </div>
 
-        <div className="grid gap-12 mb-20">
-          <section className="p-10 bg-slate-900/40 border border-slate-800 rounded-[2.5rem] relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 blur-[100px] -z-10"></div>
-            <h2 className="text-xs font-black text-cyan-400 uppercase tracking-[0.3em] mb-6 flex items-center gap-3">
-              <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-              Technical Architecture
+        <div className="grid gap-12">
+          <section className="p-8 bg-slate-900/40 border border-slate-800 rounded-3xl">
+            <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+              <Server className="text-cyan-400" /> Architecture & Engineering
             </h2>
-            <p className="text-lg text-slate-300 leading-relaxed font-medium">{project.architecture}</p>
+            <p className="text-slate-300 leading-relaxed font-medium mb-6">{project.architecture}</p>
+            <div className="p-5 bg-slate-950/50 rounded-2xl border border-slate-800/50">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Scalability</p>
+              <p className="text-slate-400 text-sm italic">{project.scalability}</p>
+            </div>
           </section>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="p-10 bg-slate-900/40 border border-slate-800 rounded-[2.5rem]">
-              <h2 className="text-xs font-black text-emerald-400 uppercase tracking-[0.3em] mb-6">Scalability & Cloud</h2>
-              <p className="text-slate-400 font-medium leading-relaxed">{project.scalability}</p>
+          <section className="p-8 bg-slate-900/40 border border-slate-800 rounded-3xl border-l-cyan-500/50 border-l-4">
+            <h2 className="text-2xl font-black mb-6 text-cyan-400">Business Impact</h2>
+            <p className="text-xl font-bold text-white mb-8">{project.impact}</p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {project.features.map((feature, i) => (
+                <div key={i} className="flex items-center gap-3 text-slate-300 font-medium">
+                  <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full"></div>
+                  {feature}
+                </div>
+              ))}
             </div>
-            <div className="p-10 bg-slate-900/40 border border-slate-800 rounded-[2.5rem]">
-              <h2 className="text-xs font-black text-blue-400 uppercase tracking-[0.3em] mb-6">Key Features</h2>
-              <ul className="space-y-4">
-                {project.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm text-slate-300 font-bold">
-                    <Zap size={14} className="text-cyan-400 mt-1 shrink-0" /> {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <section className="p-12 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-[3rem] border border-cyan-500/30 shadow-2xl shadow-cyan-500/10">
-            <h2 className="text-sm font-black text-cyan-400 uppercase tracking-[0.4em] mb-8">Business Impact & Success</h2>
-            <p className="text-2xl md:text-3xl font-black text-white leading-tight italic decoration-cyan-500/30 underline underline-offset-8">
-              "{project.impact}"
-            </p>
           </section>
         </div>
 
-        {/* Contact Footer */}
-        <footer className="pt-20 border-t border-slate-800/50 text-center">
-          <h3 className="text-3xl font-black mb-10">Interested in this architecture?</h3>
-          <div className="flex flex-wrap justify-center gap-6">
-            <Link href="mailto:rajeshrajrz111@gmail.com" className="p-4 bg-slate-900 border border-slate-800 rounded-2xl hover:border-cyan-500/50 transition-all">
-              <Mail size={24} />
+        <div className="mt-20 pt-12 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-8">
+          <Link href="/" className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white font-black rounded-xl transition-all border border-slate-800 flex items-center gap-2">
+            <ArrowLeft size={18} /> View All Projects
+          </Link>
+          <div className="flex gap-4">
+            <Link href="https://github.com/RzLetsCode" target="_blank" className="p-4 bg-slate-900 rounded-xl hover:text-cyan-400 transition-colors border border-slate-800">
+              <Github size={20} />
             </Link>
-            <Link href="https://linkedin.com/in/rajesh-kumar-04405962/" target="_blank" className="p-4 bg-slate-900 border border-slate-800 rounded-2xl hover:border-cyan-500/50 transition-all">
-              <Linkedin size={24} />
+            <Link href="https://linkedin.com/in/rajesh-kumar-04405962/" target="_blank" className="p-4 bg-slate-900 rounded-xl hover:text-cyan-400 transition-colors border border-slate-800">
+              <Linkedin size={20} />
             </Link>
           </div>
-        </footer>
+        </div>
       </main>
+
+      <footer className="py-12 px-6 border-t border-slate-900 text-center text-slate-500 text-[10px] font-black tracking-widest uppercase">
+        © 2026 Rajesh Kumar • Enterprise AI Architecture
+      </footer>
     </div>
   );
 }
