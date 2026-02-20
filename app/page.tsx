@@ -13,7 +13,7 @@ export default function Home() {
  },
  { 
  category: 'Cloud & DevOps', 
- items: ['Azure Cloud', 'GitHub Actions', 'CI/CD', 'Docker', 'Kubernetes', 'Terraform', 'MLOps', 'Monitoring'] 
+ items: ['Azure Cloud', 'GitHub Actions', 'CI/CD', 'Docker', 'Kubernetes', 'MLOps', 'Monitoring'] 
  },
  ];
  const projects = [
