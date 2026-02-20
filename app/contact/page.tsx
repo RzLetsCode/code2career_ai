@@ -42,21 +42,15 @@ export default function ContactPage() {
       message: formData.purpose,
     };
 
-    // --- DEBUGGING LOGS ---
-    // These will print to your browser's Developer Tools Console
-    console.log("=== EMAILJS DEBUG INFO ===");
-    console.log("Service ID:", process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
-    console.log("Template ID:", process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
-    console.log("Public Key:", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
-    console.log("Payload:", templateParams);
-    console.log("==========================");
-
     try {
+      // Updated for EmailJS v4: Passing the public key inside an options object
       const response = await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        {
+          publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+        }
       );
 
       if (response.status === 200) {
