@@ -86,7 +86,7 @@ Learn to design, build, and deploy advanced AI solutions. Master production-grad
  <Link href="https://github.com/RzLetsCode" target="_blank" className="hover:text-cyan-400 transition-all transform hover:scale-110">
  <Github size={32} />
  </Link>
- <Link href="https://linkedin.com/in/rajesh-kumar-04405962/" target="_blank" className="hover:text-cyan-400 transition-all transform hover:scale-110">
+ <Link href="https://www.linkedin.com/company/code2career-ai/?viewAsMember=true" target="_blank" className="hover:text-cyan-400 transition-all transform hover:scale-110">
  <Linkedin size={32} />
  </Link>
  <Link href="/contact" className="hover:text-cyan-400 transition-all transform hover:scale-110">
@@ -196,7 +196,7 @@ Learn to design, build, and deploy advanced AI solutions. Master production-grad
  <Mail size={20} />
  <span>Email Me</span>
  </Link>
- <Link href="https://linkedin.com/in/rajesh-kumar-04405962/" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-all border border-slate-700 font-black active:scale-95">
+ <Link href="https://www.linkedin.com/company/code2career-ai/?viewAsMember=true" target="_blank" className="flex items-center gap-3 px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl transition-all border border-slate-700 font-black active:scale-95">
  <Linkedin size={20} />
  <span>LinkedIn</span>
  </Link>
@@ -206,7 +206,9 @@ Learn to design, build, and deploy advanced AI solutions. Master production-grad
  </Link>
  </div>
  <div className="mt-16 pt-12 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 font-bold tracking-wider text-[10px]">
- <p>© 2026 RAJESH KUMAR • ENTERPRISE AI ARCHITECT</p>
+ <p className="text-center text-sm font-medium text-slate-400 py-8">
+  &copy; {new Date().getFullYear()} code2career_ai <span className="mx-3 text-slate-600">&bull;</span> <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent italic">Where boundaries break, breakthroughs happen.</span>
+</p>
  <div className="flex gap-6">
  <Link href="https://hashnode.com/@rz111" target="_blank" className="hover:text-cyan-400 transition-colors">BLOGS</Link>
  <Link href="https://www.youtube.com/@Code2Career_AI" target="_blank" className="hover:text-red-500 transition-colors">YOUTUBE</Link>
