@@ -44,7 +44,7 @@ export default function Home() {
  {/* Navigation */}
  <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50">
  <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
- <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent underline decoration-cyan-500/30">Rajesh Kumar</h1>
+ <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent underline decoration-cyan-500/30">code2career_ai</h1>
  <div className="hidden md:flex gap-8 text-sm font-medium">
  <Link href="#about" className="hover:text-cyan-400 transition-colors">About</Link>
  <Link href="#projects" className="hover:text-cyan-400 transition-colors">Projects</Link>
